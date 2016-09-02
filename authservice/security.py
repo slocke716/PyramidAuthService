@@ -28,6 +28,10 @@ def auth_callback(login, request):
         return []
 
 
+def add_role_principals(userid, request):
+    return ['role:%s' % role for role in request.jwt_claims.get('roles', [])]
+
+
 def includeme(config):
     settings = config.get_settings()
     # Pyramid requires an authorization policy to be active.
@@ -35,9 +39,6 @@ def includeme(config):
     # Enable JWT authentication.
     config.include('pyramid_jwt')
     secret = settings['secret']
-    config.set_jwt_authentication_policy(
-        secret,
-        callback=auth_callback
-    )
+    config.set_jwt_authentication_policy(callback=add_role_principals)
     config.set_root_factory(RootFactory)
     config.add_request_method(get_user, 'user', reify=True)

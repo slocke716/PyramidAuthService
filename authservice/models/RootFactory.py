@@ -10,9 +10,8 @@ class RootFactory(object):
     """currently for the sake of the api I will be using Authenticated for permission...
     this lacks fine-grain control and must be changed"""
     __acl__ = [
-        (Allow, 'g:super_admin', ALL_PERMISSIONS),
-        (Allow, 'g:admin', 'admin'),
-        (Allow, Authenticated, ('admin',)),
+        (Allow, 'role:super_admin', ALL_PERMISSIONS),
+        (Allow, 'role:admin', 'admin'),
     ]
 
     def __init__(self, request):
