@@ -1,4 +1,5 @@
 from authservice.models.user import User
+import jwt
 
 
 class JWTAuthView(object):
@@ -16,10 +17,13 @@ class JWTAuthView(object):
         password = self.request.POST['password']
         user = self.authenticate(login, password)  # You will need to implement this.
         if user:
-            dict(
+            token = self.request.create_jwt_token(user.id, roles=['role:%s' % g.name for g in user.groups])
+            decoded = jwt.decode(token, 'nottheseekrit', algorithms=['HS512'], verify=False)
+            return dict(
                 result='ok',
-                token=self.request.create_jwt_token(user.id, roles=['role:%s' % g.name for g in user.groups]),
-                exp=self.request.jwt_claims['exp']
+                token=token,
+                exp=decoded.get('exp'),
+                iat=decoded.get('iat')
             )
         else:
             return dict(result='error')
