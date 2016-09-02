@@ -32,4 +32,5 @@ def includeme(config):
                     attr='login',
                     request_method='POST',
                     renderer='json',
-                    route_name='login')
+                    route_name='login',
+                    permission='__no_permission_required__')
