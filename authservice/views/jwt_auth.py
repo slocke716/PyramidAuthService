@@ -16,14 +16,13 @@ class JWTAuthView(object):
         password = self.request.POST['password']
         user = self.authenticate(login, password)  # You will need to implement this.
         if user:
-            return {
-                'result': 'ok',
-                'token': self.request.create_jwt_token(user.id, roles=['role:%s' % g.name for g in user.groups])
-            }
+            dict(
+                result='ok',
+                token=self.request.create_jwt_token(user.id, roles=['role:%s' % g.name for g in user.groups]),
+                exp=self.request.jwt_claims['exp']
+            )
         else:
-            return {
-                'result': 'error'
-            }
+            return dict(result='error')
 
 
 def includeme(config):
