@@ -39,6 +39,6 @@ def includeme(config):
     # Enable JWT authentication.
     config.include('pyramid_jwt')
     secret = settings['secret']
-    config.set_jwt_authentication_policy(callback=add_role_principals)
+    config.set_jwt_authentication_policy(secret, http_header='X-Token', callback=add_role_principals)
     config.set_root_factory(RootFactory)
     config.add_request_method(get_user, 'user', reify=True)
