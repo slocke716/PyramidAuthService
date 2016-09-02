@@ -1,7 +1,7 @@
 from authservice.models.user import User
 
 
-class AuthView(object):
+class JWTAuthView(object):
     def __init__(self, request):
         self.request = request
 
@@ -28,7 +28,7 @@ class AuthView(object):
 
 def includeme(config):
     config.add_route('login', '/login')
-    config.add_view(AuthView,
+    config.add_view(JWTAuthView,
                     attr='login',
                     request_method='POST',
                     renderer='json',

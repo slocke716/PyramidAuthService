@@ -26,7 +26,7 @@ class FunctionalTests(BaseTestCase):
         basic.groups = [group]
         cls.dbsession.add(basic)
         cls.dbsession.commit()
-        from authservice.views.auth import AuthView
+        from authservice.views.jwt_auth import AuthView
         request = dummy_request(cls.dbsession)
         request.POST['login'] = 'basic'
         request.POST['password'] = 'basic'
@@ -43,7 +43,7 @@ class FunctionalTests(BaseTestCase):
         basic.groups = [group]
         cls.dbsession.add(basic)
         cls.dbsession.commit()
-        from authservice.views.auth import AuthView
+        from authservice.views.jwt_auth import AuthView
         request = dummy_request(cls.dbsession)
         request.POST['login'] = 'basic'
         request.POST['password'] = 'wrong'
