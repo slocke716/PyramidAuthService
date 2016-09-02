@@ -46,10 +46,4 @@ setup(name='AuthService',
           'testing': tests_require,
       },
       install_requires=requires,
-      entry_points="""\
-      [paste.app_factory]
-      main = authservice:main
-      [console_scripts]
-      initialize_AuthService_db = authservice.scripts.initializedb:main
-      """,
       )
