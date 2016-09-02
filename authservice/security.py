@@ -29,7 +29,7 @@ def auth_callback(login, request):
 
 
 def add_role_principals(userid, request):
-    return ['role:%s' % role for role in request.jwt_claims.get('roles', [])]
+    return [role for role in request.jwt_claims.get('roles', [])]
 
 
 def includeme(config):
