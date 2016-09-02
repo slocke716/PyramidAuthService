@@ -18,7 +18,7 @@ class AuthView(object):
         if user:
             return {
                 'result': 'ok',
-                'token': self.request.create_jwt_token(user.id)
+                'token': self.request.create_jwt_token(user.id, groups=['%s,' % g.name for g in user.groups])
             }
         else:
             return {
