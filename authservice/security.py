@@ -39,7 +39,5 @@ def includeme(config):
         secret,
         callback=auth_callback
     )
-    authz_policy = ACLAuthorizationPolicy()
     config.set_root_factory(RootFactory)
-    config.set_authorization_policy(authz_policy)
     config.add_request_method(get_user, 'user', reify=True)
