@@ -57,12 +57,19 @@ def includeme(config):
     config.add_view(WebAuthView,
                     attr='login',
                     request_method='GET',
-                    renderer='../templates/login.jinja2',
+                    renderer='/templates/login.jinja2',
                     route_name='login',
                     permission='__no_permission_required__')
     config.add_view(WebAuthView,
                     attr='login',
                     request_method='POST',
-                    renderer='../templates/login.jinja2',
+                    renderer='/templates/login.jinja2',
                     route_name='login',
+                    permission='__no_permission_required__')
+    config.add_route('logout', '/logout')
+    config.add_view(WebAuthView,
+                    attr='logout',
+                    request_method='GET',
+                    renderer='/templates/login.jinja2',
+                    route_name='logout',
                     permission='__no_permission_required__')
