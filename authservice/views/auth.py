@@ -26,10 +26,10 @@ class AuthView(object):
             }
 
 
-# include the following in your __init__ main function
-#     config.add_route('login', '/login')
-#     config.add_view(AuthView,
-#                     attr='login',
-#                     request_method='POST',
-#                     renderer='json',
-#                     route_name='login')
+def includeme(config):
+    config.add_route('login', '/login')
+    config.add_view(AuthView,
+                    attr='login',
+                    request_method='POST',
+                    renderer='json',
+                    route_name='login')
