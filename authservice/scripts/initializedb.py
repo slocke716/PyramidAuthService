@@ -21,12 +21,23 @@ class InitializeDb(object):
         dbsession = Session()
 
         admin_group = models.Group('admin')
+        dbsession.add(admin_group)
+        dbsession.commit()
         admin_user = models.User('admin', 'admin')
+        admin_user.groups = [admin_group]
+        dbsession.add(admin_user)
+        dbsession.commit()
         basic = models.Group('basic')
+        dbsession.add(basic)
+        dbsession.commit()
         basic_user = models.User('basic', 'basic')
+        basic_user.groups = [basic]
+        dbsession.add(basic_user)
+        dbsession.commit()
         super_admin_group = models.Group('super_admin')
+        dbsession.add(super_admin_group)
+        dbsession.commit()
         super_admin_user = models.User('super_admin', 'super_admin')
-        admin_group.users = [admin_user]
-        super_admin_group.users = [super_admin_user]
-        dbsession.add_all([admin_group, admin_user, super_admin_group, super_admin_user, basic, basic_user])
+        super_admin_user.groups = [super_admin_group]
+        dbsession.add(super_admin_user)
         dbsession.commit()
