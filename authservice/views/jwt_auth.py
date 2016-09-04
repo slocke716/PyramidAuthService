@@ -20,21 +20,24 @@ class JWTAuthView(object):
         try:
             login = self.request.POST['login']
             password = self.request.POST['password']
+            self.log.debug('before auth')
             user = self.authenticate(login, password)
+            self.log.debug('after auth')
             if user:
                 token = self.request.create_jwt_token(user.id, roles=['role:%s' % g.name for g in user.groups])
                 self.log.debug(token)
                 decoded = jwt.decode(token, 'nottheseekrit', algorithms=['HS512'], verify=False)
                 return dict(
-                    result='ok',
+                    success=True,
                     token=token,
                     exp=decoded.get('exp'),
                     iat=decoded.get('iat')
                 )
             else:
-                return dict(result='error')
+                return dict(success=False, error='user was not authenticated')
         except Exception as e:
             self.log.debug(e.args[0])
+            return dict(success=False, error='hit exception')
 
 
 def includeme(config):
