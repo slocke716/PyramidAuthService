@@ -16,22 +16,25 @@ class JWTAuthView(object):
         return None
 
     def login(self):
-        login = self.request.POST['login']
-        password = self.request.POST['password']
-        user = self.authenticate(login, password)
-        self.log.debug(user)
-        if user:
-            token = self.request.create_jwt_token(user.id, roles=['role:%s' % g.name for g in user.groups])
-            self.log.debug(token)
-            decoded = jwt.decode(token, 'nottheseekrit', algorithms=['HS512'], verify=False)
-            return dict(
-                result='ok',
-                token=token,
-                exp=decoded.get('exp'),
-                iat=decoded.get('iat')
-            )
-        else:
-            return dict(result='error')
+        try:
+            login = self.request.POST['login']
+            password = self.request.POST['password']
+            user = self.authenticate(login, password)
+            self.log.debug(user)
+            if user:
+                token = self.request.create_jwt_token(user.id, roles=['role:%s' % g.name for g in user.groups])
+                self.log.debug(token)
+                decoded = jwt.decode(token, 'nottheseekrit', algorithms=['HS512'], verify=False)
+                return dict(
+                    result='ok',
+                    token=token,
+                    exp=decoded.get('exp'),
+                    iat=decoded.get('iat')
+                )
+            else:
+                return dict(result='error')
+        except Exception as e:
+            self.log.debug(e.args[0])
 
 
 def includeme(config):
