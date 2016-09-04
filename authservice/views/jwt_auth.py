@@ -36,7 +36,7 @@ class JWTAuthView(object):
             else:
                 return dict(success=False, error='user was not authenticated')
         except Exception as e:
-            self.log.debug(e.args[0])
+            self.log.exception(e.args[0], e.args)
             return dict(success=False, error='hit exception')
 
 
