@@ -45,6 +45,7 @@ class User(TimestampMixin, Base):
         # hash = self.password
         # log.debug(password)
         # return sha256_crypt.verify(password, hash)
+        log.debug('in validate password')
         return True
 
     def change_password(self, old_password, new_password):
