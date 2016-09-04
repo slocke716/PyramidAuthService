@@ -11,6 +11,7 @@ class JWTAuthView(object):
     def authenticate(self, login, password):
         user = User.get_user(login, self.request.dbsession)
         self.log.debug(login)
+        self.log.debug('test')
         if user and user.validate_password(password):
             return user
         return None
