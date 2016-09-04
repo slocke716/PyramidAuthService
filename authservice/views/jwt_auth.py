@@ -18,8 +18,8 @@ class JWTAuthView(object):
 
     def login(self):
         try:
-            login = self.request.POST['login']
-            password = self.request.POST['password']
+            login = self.request.POST.get('login', None)
+            password = self.request.POST.get('password', None)
             self.log.debug('before auth')
             user = self.authenticate(login, password)
             self.log.debug('after auth')
