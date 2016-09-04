@@ -10,8 +10,6 @@ class JWTAuthView(object):
 
     def authenticate(self, login, password):
         user = User.get_user(login, self.request.dbsession)
-        self.log.debug(login)
-        self.log.debug('test')
         if user and user.validate_password(password):
             return user
         return None
@@ -20,12 +18,9 @@ class JWTAuthView(object):
         try:
             login = self.request.POST.get('login', None)
             password = self.request.POST.get('password', None)
-            self.log.debug('before auth')
             user = self.authenticate(login, password)
-            self.log.debug('after auth')
             if user:
                 token = self.request.create_jwt_token(user.id, roles=['role:%s' % g.name for g in user.groups])
-                self.log.debug(token)
                 decoded = jwt.decode(token, 'nottheseekrit', algorithms=['HS512'], verify=False)
                 return dict(
                     success=True,
@@ -36,7 +31,6 @@ class JWTAuthView(object):
             else:
                 return dict(success=False, error='user was not authenticated')
         except Exception as e:
-            self.log.exception(e.args[0], e.args)
             return dict(success=False, error='hit exception')
 
 
