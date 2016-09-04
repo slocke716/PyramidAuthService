@@ -11,7 +11,6 @@ class JWTAuthView(object):
     def authenticate(self, login, password):
         user = User.get_user(login, self.request.dbsession)
         self.log.debug(login)
-        self.log.debug(user.validate_password(password))
         if user and user.validate_password(password):
             return user
         return None
@@ -21,7 +20,6 @@ class JWTAuthView(object):
             login = self.request.POST['login']
             password = self.request.POST['password']
             user = self.authenticate(login, password)
-            self.log.debug(user)
             if user:
                 token = self.request.create_jwt_token(user.id, roles=['role:%s' % g.name for g in user.groups])
                 self.log.debug(token)
