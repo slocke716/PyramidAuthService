@@ -10,11 +10,11 @@ from sqlalchemy.orm import relationship
 from pyramid.security import Allow
 from passlib.hash import sha256_crypt
 from .group import user_group_table
-from .group import Group
 import logging
 log = logging.getLogger(__name__)
 
 
+# TODO: salt password...use bcrypt if possible
 class User(TimestampMixin, Base):
     __tablename__ = 'users'
     id = Column(Integer, primary_key=True)

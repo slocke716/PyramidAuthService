@@ -16,8 +16,9 @@ class JWTAuthView(object):
 
     def login(self):
         try:
-            login = self.request.POST.get('login', None)
-            password = self.request.POST.get('password', None)
+            po = self.request.json_body
+            login = po.get('login', None)
+            password = po.get('password', None)
             user = self.authenticate(login, password)
             if user:
                 token = self.request.create_jwt_token(user.id, roles=['role:%s' % g.name for g in user.groups])
