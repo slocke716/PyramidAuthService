@@ -1,7 +1,8 @@
 from authservice.models.user import User
 import jwt
 import logging
-
+from pyramid.httpexceptions import HTTPUnauthorized, HTTPInternalServerError
+logger = logging.getLogger(__name__)
 
 class JWTAuthView(object):
     def __init__(self, request):
@@ -30,9 +31,10 @@ class JWTAuthView(object):
                     iat=decoded.get('iat')
                 )
             else:
-                return dict(success=False, error='user was not authenticated')
+                return HTTPUnauthorized(json_body={'error': 'User was not authorized'})
         except Exception as e:
-            return dict(success=False, error='hit exception')
+            logger.exception(e.args[0])
+            raise HTTPInternalServerError(json_body={'error': 'An unknown error has occurred'})
 
 
 def includeme(config):
